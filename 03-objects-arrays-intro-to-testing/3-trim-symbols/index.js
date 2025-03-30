@@ -9,7 +9,7 @@ export function trimSymbols(string, size) {
   if (size === undefined) return string;
 
   const stringParts = string.split('');
-  let newArr = [];
+  const newArr = [];
   let counter = 0;
 
   for (let i = 0; i < stringParts.length; i++) {
