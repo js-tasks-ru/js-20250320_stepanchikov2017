@@ -13,11 +13,11 @@ export default class SortableTablev2 extends SortableTable {
   }
 
   createListeners() {
-    this.subElements.header.addEventListener('click', this.handlerHeaderClick);
+    this.subElements.header.addEventListener('pointerdown', this.handlerHeaderClick);
   }
 
   removeListeners() {
-    this.subElements.header.removeEventListener('click', this.handlerHeaderClick);
+    this.subElements.header.removeEventListener('pointerdown', this.handlerHeaderClick);
   }
 
   sortTable() {
@@ -35,15 +35,17 @@ export default class SortableTablev2 extends SortableTable {
   }
 
   handlerHeaderClick = event => {
-    const cell = event.target.closest('.sortable-table__cell');
-    if (!cell || cell.dataset.sortable === 'false') return;
+    const cellElement = event.target.closest('[data-sortable="true"]');
 
-    const field = cell.dataset.id;
-    const currentOrder = cell.dataset.order;
-    const newOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+    if (!cellElement) {
+      return;
+    }
+
+    const fieldName = cellElement.dataset.id;
+    const fieldOrder = cellElement.dataset.order === 'desc' ? 'asc' : 'desc';
 
     this.clearCellOrder();
-    this.sort(field, newOrder);
+    this.sort(fieldName, fieldOrder);
   };
 
   remove() {
