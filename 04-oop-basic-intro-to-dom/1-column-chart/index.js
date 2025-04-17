@@ -20,6 +20,15 @@ export default class ColumnChart {
 		this.element = this.createElement();	
 	}
 
+	getSubElements(element) {
+		const elements = element.querySelectorAll('[data-element]');
+		return [...elements].reduce((accum, subElement) => {
+			const name = subElement.dataset.element;
+			accum[name] = subElement;
+			return accum;
+		}, {});
+	}
+
 	createLinkTemplate() {
 		if (this.link) {
 			return `<a href="${this.link}" class="column-chart__link">View all</a>`
@@ -63,16 +72,21 @@ export default class ColumnChart {
 	}
 
 	createElement() {
-		const element = document.createElement('div');
-		element.innerHTML = this.createTemplate();
-		const firstElementChild = element.firstElementChild;
-		firstElementChild.classList.add('column-chart_loading');
-		return firstElementChild;
+		const wrapper = document.createElement('div');
+		wrapper.innerHTML = this.createTemplate();
+		const chartElement = wrapper.firstElementChild;
+		chartElement.classList.add('column-chart_loading');
+		this.subElements = this.getSubElements(chartElement);
+		return chartElement;
 	}
 
 	update(newData) {
 		this.data = newData;
-		this.element.innerHTML = this.createTemplate();
+		const newHeader = this.formatHeading(
+			this.data.reduce((sum, item) => sum + item, 0)
+		);
+		this.subElements.header.innerHTML = newHeader;
+		this.subElements.body.innerHTML = this.createChartTemplate();
 	}
 
 	remove() {
