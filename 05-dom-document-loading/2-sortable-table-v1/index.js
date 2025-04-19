@@ -13,6 +13,14 @@ export default class SortableTable {
     this.subElements = this.getSubElements(this.element);
   }
 
+  toggleEmptyPlaceholder(data) {
+    const hasData = data.length > 0;
+  
+    this.subElements.body.style.display = hasData ? '' : 'none';
+    this.subElements.header.style.display = hasData ? '' : 'none';
+    this.subElements.emptyPlaceholder.style.display = hasData ? 'none' : 'block';
+  }
+
   createElement() {
     const wrapper = document.createElement('div');
     wrapper.innerHTML = this.createTable();
@@ -69,6 +77,7 @@ export default class SortableTable {
 
   update(data) {
     this.subElements.body.innerHTML = this.createTableBody(data);
+    this.toggleEmptyPlaceholder(data);
   }
 
   createArrowElement() {
