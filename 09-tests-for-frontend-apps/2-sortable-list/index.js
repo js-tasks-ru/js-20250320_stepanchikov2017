@@ -92,7 +92,6 @@ export default class SortableList {
   
   handleGrabPointerDown = (event) => {
 		event.preventDefault();
-		console.log(this.element.children.length);
 		
 		const item = event.target.closest('li');
 	
@@ -108,7 +107,6 @@ export default class SortableList {
 		this.draggingItem.replaceWith(this.placeholder);
 		this.element.append(this.draggingItem);
 		
-		console.log(this.element.children.length);
 		this.draggingItem.classList.add('sortable-list__item_dragging');
 		this.moveAt(event.clientX, event.clientY);
 	
