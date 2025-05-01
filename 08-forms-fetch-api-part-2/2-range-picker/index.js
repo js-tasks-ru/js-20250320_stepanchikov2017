@@ -16,7 +16,7 @@ export default class RangePicker {
 	}
 
 	formatDate(date) {
-		const newDate = new Date(date).toLocaleDateString()
+		const newDate = new Date(date).toLocaleDateString('ru');
 		return newDate
 	}
 
